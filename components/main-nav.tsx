@@ -3,6 +3,7 @@
 import {cn} from "@/lib/utils";
 import {useParams, usePathname} from "next/navigation";
 import Link from "next/link";
+import React from "react";
 
 export function MainNav(
     {
@@ -16,17 +17,17 @@ export function MainNav(
         {
             href: `/${params.storeId}`,
             label: 'Dashboard',
-            active: pathname === `/${params.storeId})`,
+            active: pathname === `/${params.storeId}`,
         },
         {
             href: `/${params.storeId}/billboards`,
             label: 'Billboards',
-            active: pathname === `/${params.storeId}/billboards)`,
+            active: pathname === `/${params.storeId}/billboards`,
         },
         {
             href: `/${params.storeId}/settings`,
             label: 'Settings',
-            active: pathname === `/${params.storeId}/settings)`,
+            active: pathname === `/${params.storeId}/settings`,
         },
     ];
 
