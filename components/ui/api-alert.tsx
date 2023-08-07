@@ -14,25 +14,27 @@ interface ApiAlertProps {
     variant: "public" | "admin";
 }
 
-const textMap: Record<ApiAlertProps["variant"], string> =  {
+const textMap: Record<ApiAlertProps["variant"], string> = {
     public: "Public",
     admin: "Admin"
 }
 
-const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> =  {
+const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> = {
     public: "secondary",
     admin: "destructive"
 }
 
-export const ApiAlert: React.FC<ApiAlertProps> = ({
-    title,
-    description,
-    variant = "public"
-}) => {
+export const ApiAlert: React.FC<ApiAlertProps> = (
+    {
+        title,
+        variant = "public",
+        description,
+    }) => {
     const onCopy = () => {
         navigator.clipboard.writeText(description);
         toast.success("API Route copied to the clipboard.")
     }
+
     return (
         <Alert>
             <AlertTitle className="flex items-center gap-x-2">
