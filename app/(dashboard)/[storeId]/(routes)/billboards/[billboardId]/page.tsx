@@ -5,7 +5,7 @@ const BillboardPage = async (
     {
         params
     }: {
-        params: { billboardId: string }
+        params: { billboardId: string , storeId: string}
     }) => {
     const billboard = await prismadb.billboard.findUnique({
         where: {
@@ -13,10 +13,16 @@ const BillboardPage = async (
         }
     })
 
+    const colors = await prismadb.color.findMany({
+        where: {
+            storeId: params.storeId,
+        }
+    })
+
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <BillboardForm initialData={billboard}/>
+                <BillboardForm initialData={billboard} colors={colors}/>
             </div>
         </div>
     );

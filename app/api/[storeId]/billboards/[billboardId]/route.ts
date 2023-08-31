@@ -33,7 +33,7 @@ export async function PATCH(
         const {userId} = auth();
         const body = await req.json();
 
-        const {label, imageUrl} = body;
+        const {label, imageUrl, buttonLabel, buttonColor, isFeatured} = body;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", {status: 401})
@@ -49,6 +49,10 @@ export async function PATCH(
 
         if (!params.billboardId) {
             return new NextResponse("Billboard Id is required", {status: 400})
+        }
+
+        if (!buttonLabel && buttonColor || buttonLabel && !buttonColor) {
+            return new NextResponse("Button label and button color are required", {status: 400})
         }
 
         const storeByUserId = prismadb.store.findFirst({
@@ -67,7 +71,10 @@ export async function PATCH(
                 id: params.billboardId,
             }, data: {
                 label,
-                imageUrl
+                imageUrl,
+                buttonLabel,
+                colorId: buttonColor,
+                isFeatured
             }
         });
 

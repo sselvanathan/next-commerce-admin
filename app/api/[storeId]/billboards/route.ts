@@ -11,7 +11,7 @@ export async function POST(
         const {userId} = auth();
         const body = await req.json();
 
-        const {label, imageUrl} = body;
+        const {label, imageUrl, buttonLabel, buttonColor, isFeatured} = body;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", {status: 401});
@@ -29,6 +29,10 @@ export async function POST(
             return new NextResponse("Store id is required", {status: 400});
         }
 
+        if (!buttonLabel && buttonColor || buttonLabel && !buttonColor) {
+            return new NextResponse("Button label and button color are required", {status: 400})
+        }
+
         const storeByUserId = prismadb.store.findFirst({
             where: {
                 id: params.storeId,
@@ -44,7 +48,10 @@ export async function POST(
             data: {
                 label,
                 imageUrl,
-                storeId: params.storeId
+                storeId: params.storeId,
+                buttonLabel,
+                colorId: buttonColor,
+                isFeatured
             },
         });
 
@@ -68,6 +75,9 @@ export async function GET(
             where: {
                 storeId: params.storeId,
             },
+            include: {
+                buttonColor: true,
+            }
         });
 
         return NextResponse.json(billboards);
