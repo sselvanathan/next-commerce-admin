@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 
-import {ColorColumn} from "@/app/(dashboard)/[storeId]/(routes)/colors/components/columns";
+import {ColorColumn} from "@/app/(dashboard)/[storeId]/(routes)/products/colors/components/columns";
 import {Copy, Edit, MoreHorizontal, Trash} from "lucide-react";
 import {toast} from "react-hot-toast";
 import {useParams, useRouter} from "next/navigation";
@@ -38,7 +38,7 @@ export const CellAction: React.FC<CellActionProps> = (
     const onDelete = async () => {
         try {
             setLoading(true);
-            await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
+            await axios.delete(`/api/${params.storeId}/products/colors/${data.id}`);
             router.refresh();
             toast.success('Color deleted.')
         } catch (error) {
@@ -72,7 +72,7 @@ export const CellAction: React.FC<CellActionProps> = (
                         <Copy className="mr-2 h-4 w-4"/>
                         Copy Id
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/colors/${data.id}`)}>
+                    <DropdownMenuItem onClick={() => router.push(`/${params.storeId}/products/colors/${data.id}`)}>
                         <Edit className="mr-2 h-4 w-4"/>
                         Update
                     </DropdownMenuItem>

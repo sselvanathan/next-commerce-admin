@@ -7,6 +7,7 @@ import { ToasterProvider } from "@/providers/toast-provider";
 
 import "./globals.css";
 import {ThemeProvider} from "@/providers/theme-provider";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 

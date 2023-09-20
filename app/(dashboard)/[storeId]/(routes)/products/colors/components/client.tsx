@@ -7,7 +7,7 @@ import React from "react";
 import {Heading} from "@/components/ui/heading";
 import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
-import {ColorColumn, columns} from "@/app/(dashboard)/[storeId]/(routes)/colors/components/columns";
+import {ColorColumn, columns} from "@/app/(dashboard)/[storeId]/(routes)/products/colors/components/columns";
 import {DataTable} from "@/components/ui/data-table";
 import {ApiList} from "@/components/ui/api-list";
 
@@ -28,7 +28,7 @@ export const ColorClient: React.FC<ColorClientProps> = (
                     title={`Colors (${data.length})`}
                     description="Manage colors for your store"
                 />
-                <Button onClick={() => router.push(`/${params.storeId}/colors/new`)}>
+                <Button onClick={() => router.push(`/${params.storeId}/products/colors/new`)}>
                     <Plus className="mr-2 h-4 w-4"/>
                     Add New
                 </Button>
