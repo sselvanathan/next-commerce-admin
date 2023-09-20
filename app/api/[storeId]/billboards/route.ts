@@ -71,9 +71,13 @@ export async function GET(
             return new NextResponse("Store id is required", {status: 400});
         }
 
+        const { searchParams } = new URL(req.url);
+        const isFeatured = searchParams.get("isFeatured");
+
         const billboards = await prismadb.billboard.findMany({
             where: {
                 storeId: params.storeId,
+                isFeatured: isFeatured ? true : undefined,
             },
             include: {
                 buttonColor: true,
