@@ -1,5 +1,7 @@
-import { SignIn } from "@clerk/nextjs";
+import {redirect} from "next/navigation";
 
-export default function Page() {
-  return <SignIn />;
-}
+const LoginPage = () => {
+    return redirect("api/auth/signin")
+};
+
+export default LoginPage;

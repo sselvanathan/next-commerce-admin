@@ -1,4 +1,3 @@
-import {auth} from "@clerk/nextjs";
 import {redirect} from "next/navigation";
 
 import prismadb from "@/lib/prismadb";
@@ -6,6 +5,9 @@ import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import React from "react";
 import {Separator} from "@/components/ui/separator";
+import {getServerSession} from "next-auth";
+import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import {NextResponse} from "next/server";
 
 export default async function DashboardLayout(
     {
@@ -17,10 +19,11 @@ export default async function DashboardLayout(
             storeId: string
         }
     }) {
-    const {userId} = auth();
+    const session = await getServerSession(authOptions);
+    const userId = session?.user?.id;
 
     if (!userId) {
-        redirect('/sign-in')
+        return new NextResponse("Unauthenticated", { status: 401 });
     }
 
     const store = await prismadb.store.findFirst({
