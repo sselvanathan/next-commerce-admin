@@ -5,6 +5,7 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 
 export async function GET(
+    req: Request,
     {params}: { params: { layoutId: string } }
 ) {
     try {
