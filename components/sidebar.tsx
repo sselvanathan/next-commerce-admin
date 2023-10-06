@@ -24,9 +24,14 @@ export function Sidebar(
             href: `/${params.storeId}/products`,
             label: 'Products',
             active: pathname.startsWith(`/${params.storeId}/products`),
+        },
+        {
+            href: `/${params.storeId}/filters`,
+            label: 'Filters',
+            active: pathname.startsWith(`/${params.storeId}/filters`),
             children: [
                 {
-                    href: `/${params.storeId}/products/sizes`,
+                    href: `/${params.storeId}/filters/sizes`,
                     label: 'Sizes',
                     active: pathname.startsWith(`/${params.storeId}/products/sizes`),
                 },
@@ -46,6 +51,11 @@ export function Sidebar(
             href: `/${params.storeId}/orders`,
             label: 'Orders',
             active: pathname === `/${params.storeId}/orders`,
+        },
+        {
+            href: `/${params.storeId}/layouts`,
+            label: 'Layouts',
+            active: pathname.startsWith(`/${params.storeId}/layouts`),
         },
         {
             href: `/${params.storeId}/settings`,

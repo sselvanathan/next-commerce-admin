@@ -22,8 +22,11 @@ model Store {
   colors     Color[]     @relation("StoreToColor")
   products   Product[]   @relation("StoreToProduct")
   orders     Order[]     @relation("StoreToOrder")
+  Layout     Layout[]    @relation("StoreToLayout")
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+
+  @@index([userId])
 }
 
 model Billboard {
@@ -153,4 +156,18 @@ model User {
   email    String  @unique
   password String
   name     String?
+}
+
+model Layout {
+  id         String   @id @default(uuid())
+  storeId    String
+  store      Store    @relation("StoreToLayout", fields: [storeId], references: [id])
+  name       String
+  markdown   String   @db.VarChar(5000)
+  isArchived Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([storeId, name])
+  @@index([storeId])
 }
