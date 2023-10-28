@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
     },
     providers: [
         CredentialsProvider({
-                name: 'Email',
+                name: 'E-mail',
                 credentials: {
                     email: {
                         label: 'Email',
