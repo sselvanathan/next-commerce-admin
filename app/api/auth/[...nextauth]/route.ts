@@ -1,8 +1,7 @@
-import NextAuth, {type NextAuthOptions} from "next-auth";
-import GitHubProvider from "next-auth/providers/github"
-import CredentialsProvider from "next-auth/providers/credentials"
-import prismadb from "@/lib/prismadb";
-import {compare} from 'bcrypt'
+import NextAuth from "next-auth/next";
+import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
+import {NextAuthOptions, User} from "next-auth";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -15,71 +14,61 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    id: token.id,
-                    randomKey: token.randomKey
+                    token: token.token
                 }
             };
         },
         jwt: ({token, user}) => {
-            console.log('JWT Callback', {token, user});
-            if (user){
+            console.log('JWT Callback', {user});
+            if (user) {
                 const u = user as unknown as any
                 return {
-                    ...token,
                     id: u.id,
-                    randomKey: u.randomKey
+                    token: user.token
                 }
             }
+
             return token;
         }
     },
     providers: [
         CredentialsProvider({
-                name: 'Email',
-                credentials: {
-                    email: {
-                        label: 'Email',
-                        type: 'email',
-                        placeholder: 'hello@example.com'
-                    },
-                    password: {label: 'Password', type: 'password'}
+            name: "Credentials",
+
+            credentials: {
+                email: {
+                    label: "Username",
+                    type: "text",
+                    placeholder: "swoosh",
                 },
-                async authorize(credentials) {
-                    if (!credentials?.email || !credentials.password) {
-                        return null;
-                    }
+                password: {label: "Password", type: "password"},
+            },
 
-                    const user = await prismadb.user.findUnique({
-                        where: {
-                            email: credentials.email
-                        }
-                    })
+            async authorize(credentials, req) {
+                if (!credentials?.email || !credentials?.password) return null;
 
-                    if (!user) {
-                        return null;
-                    }
-
-                    const isPasswordValid = await compare(credentials.password, user.password)
-
-                    if (!isPasswordValid) {
-                        return null;
-                    }
-
-                    return {
-                        id: user.id.toString(),
-                        email: user.email,
-                        name: user.name,
-                        randomKey: '123'
-                    }
+                try {
+                    const userResponse = await axios.post(`${process.env.BACKEND_URL}/api/v1/auth/authenticate`, {
+                            'email': credentials?.email,
+                            'password': credentials?.password,
+                        },
+                    );
+                    console.log(userResponse);
+                    const user: User = {
+                        id: '1',
+                        token: userResponse.data.token,
+                    };
+                    return user;
+                } catch (e) {
+                    console.error(e);
+                    return null;
                 }
-            }
-        ),
-        GitHubProvider({
-            clientId: process.env.GITHUB_ID ?? "",
-            clientSecret: process.env.GITHUB_SECRET ?? "",
+            },
         }),
-        // ToDo Apple Login & Google Login
     ],
+    pages: {
+        signIn: "/signIn",
+    },
 }
 
 const handler = NextAuth(authOptions);

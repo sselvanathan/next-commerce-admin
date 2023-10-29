@@ -1,9 +1,9 @@
 import {redirect} from "next/navigation";
 
-import prismadb from "@/lib/prismadb";
 import React from "react";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import {getOldestStoreId} from "@/actions/store/get-oldest-store-id";
 import {NextResponse} from "next/server";
 
 export default async function SetupLayout(
@@ -13,19 +13,16 @@ export default async function SetupLayout(
         children: React.ReactNode;
     }) {
     const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+    const token = session?.user?.token;
 
-    if (!userId) {
-        return new NextResponse("Unauthenticated", { status: 401 });
+    if (!token) {
+        return new NextResponse("Unauthenticated", {status: 401});
     }
 
-    const store = await prismadb.store.findFirst({
-        where: {
-            userId
-        }
-    });
-    if (store) {
-        redirect(`/${store.id}`)
+    const storeId = await getOldestStoreId(token);
+
+    if (storeId) {
+        redirect(`/${storeId}`);
     }
 
     return (

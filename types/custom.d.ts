@@ -6,7 +6,12 @@ declare module "next-auth" {
      */
     interface Session {
         user: {
-            id?: string | null; // NOTE: made "id" optional (?) and nullable (null) so that it matches types with ones already existing in DefaultSession
+            token?: string | null; // NOTE: made "id" optional (?) and nullable (null) so that it matches types with ones already existing in DefaultSession
         } & DefaultSession["user"];
+    }
+
+    interface User extends DefaultSession["user"] {
+        id?: string;
+        token?: string;
     }
 }
