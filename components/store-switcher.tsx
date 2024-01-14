@@ -1,7 +1,6 @@
 "use client";
 
 import React, {useState} from "react";
-import {Store} from "@prisma/client"
 import {Check, ChevronsUpDown, PlusCircle, Store as StoreIcon} from "lucide-react";
 import {useParams, useRouter} from "next/navigation";
 
@@ -21,8 +20,13 @@ import {
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
+interface StoreItem {
+    id: string;
+    name: string;
+}
+
 interface StoreSwitcherProps extends PopoverTriggerProps {
-    items: Store[];
+    items: StoreItem[];
 }
 
 export default function StoreSwitcher(

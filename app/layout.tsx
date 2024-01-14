@@ -7,7 +7,6 @@ import {ThemeProvider} from "@/providers/theme-provider";
 
 import {getServerSession} from "next-auth";
 import SessionProvider from "@/providers/session-provider";
-import {authOptions} from "@/app/api/auth/[...nextauth]/route";
 
 import "./globals.css";
 import React from "react";
@@ -15,29 +14,27 @@ import React from "react";
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-    title: "Admin Dashboard",
-    description: "Admin Dashboard",
+  title: "Admin Dashboard",
+  description: "Admin Dashboard",
 };
 
 export default async function RootLayout(
     {
-        children,
+      children,
     }: {
-        children: React.ReactNode;
+      children: React.ReactNode;
     }) {
-    const session = await getServerSession(authOptions);
+  const session = await getServerSession();
 
-    return (
-        <html lang="en">
-        <body className={inter.className}>
-        <SessionProvider session={session}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                <ToasterProvider/>
-                <ModalProvider/>
-                {children}
-            </ThemeProvider>
-        </SessionProvider>
-        </body>
-        </html>
-    );
+  return (
+      <html lang="en">
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ToasterProvider/>
+          <ModalProvider/>
+          {children}
+        </ThemeProvider>
+      </body>
+      </html>
+  );
 }

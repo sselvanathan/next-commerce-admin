@@ -7,10 +7,7 @@ import {
     Package
 } from "lucide-react";
 import {formatter} from "@/lib/utils";
-import {getTotalRevenue} from "@/actions/get-total-revenue";
 import React from "react";
-import {getSalesCount} from "@/actions/get-sales-count";
-import {getStockCount} from "@/actions/get-stock-count";
 import {Overview} from "@/components/overview";
 import {getGraphRevenue} from "@/actions/get-graph-revenue";
 
@@ -22,10 +19,14 @@ const DashboardPage: React.FC<DashboardPageProps> = async (
     {
         params
     }) => {
-    const totalRevenue = await getTotalRevenue(params.storeId);
-    const salesCount = await getSalesCount(params.storeId);
-    const stockCount = await getStockCount(params.storeId);
+    //const totalRevenue = await getTotalRevenue(params.storeId);
+ //   const salesCount = await getSalesCount(params.storeId);
+   // const stockCount = await getStockCount(params.storeId);
+    const totalRevenue = 0;
+   const salesCount = 0;
+   const stockCount = 0;
     const graphRevenue = await getGraphRevenue(params.storeId);
+
 
     return (
         <div className="flex-col">

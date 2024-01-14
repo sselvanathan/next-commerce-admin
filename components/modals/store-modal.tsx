@@ -1,7 +1,6 @@
 "use client";
 
 import * as z from "zod";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -19,6 +18,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {createStore} from "@/actions/store/create-store";
+import {getSession} from "next-auth/react";
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -38,10 +39,9 @@ export const StoreModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     //ToDo Create Store
-    console.log(values);
     try {
       setLoading(true);
-      const response = await axios.post("/api/stores", values);
+      const response = await createStore(values.name);
       window.location.assign(`/${response.data.id}`);
     } catch (error) {
       toast.error("Something went wrong.");

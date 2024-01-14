@@ -1,25 +1,13 @@
 
 import StoreSwitcher from "@/components/store-switcher";
-import prismadb from "@/lib/prismadb";
 import {ThemeToggle} from "@/components/theme-toggle";
 import UserButton from "@/components/ui/user-button";
-import {getServerSession} from "next-auth";
-import {authOptions} from "@/app/api/auth/[...nextauth]/route";
+import {getStoreNames} from "@/actions/store/get-store-names";
+import {cookies} from "next/headers";
 
 const Navbar = async () => {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
-
-    if (!userId){
-        // ToDo 401
-        return;
-    }
-
-    const stores = await prismadb.store.findMany({
-        where: {
-            userId
-        },
-    });
+    const cookie = cookies().toString();
+    const stores = await getStoreNames(cookie);
 
     return (
         <div className="border-b">

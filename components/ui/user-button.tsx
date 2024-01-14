@@ -1,9 +1,9 @@
 "use client";
-import {signOut} from "next-auth/react";
 import React, {useState} from "react";
 import {LogOut, UserCircle} from "lucide-react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
+
 import {
     Command,
     CommandGroup,
@@ -11,10 +11,20 @@ import {
     CommandList,
     CommandSeparator
 } from "@/components/ui/command";
+import Cookies from "js-cookie";
 
 const UserButton = () => {
 
     const [open, setOpen] = useState(false);
+
+    const signOut = () => {
+        // remove stored token
+        console.log(Cookies.attributes)
+        Cookies.remove('jwt')
+        console.log('removed jwt Cokkie')
+        console.log(Cookies.attributes)
+        window.location.assign(`/auth/login`);
+    }
 
     return <>
         <Popover open={open} onOpenChange={setOpen}>
