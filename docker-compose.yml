@@ -1,0 +1,21 @@
+version: '3.8'  # Use Docker Compose file format version 3.8
+
+services:
+  app:  # Next.js application
+    container_name: next-commerce-admin
+    build:
+      context: .  # Set build context to the Dockerfile's location
+      dockerfile: docker/Dockerfile  # Specify the path to your Dockerfile if it's not in the root directory
+    ports:
+      - "3000:3000"  # Map port 3000 of the container to port 3000 on the host
+    environment:
+      - NODE_ENV=production  # Set environment variables
+    volumes:
+      - .:/usr/src/app  # Mount the project directory inside the container
+      - /usr/src/app/node_modules  # Use a volume to persist node_modules
+    networks:
+      - admin_network
+
+networks:
+  admin_network:
+    external: true
