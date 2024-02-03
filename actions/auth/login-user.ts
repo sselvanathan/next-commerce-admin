@@ -1,5 +1,6 @@
 export const loginUser = async (email: string, password: string) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`;
+    console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
 
     try {
         const response = await fetch(url, {
