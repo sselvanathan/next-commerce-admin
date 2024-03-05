@@ -1,9 +1,14 @@
+'use server'
+
+import {auth} from "@/auth";
 
 export const createStore = async (storeName: string) => {
 
     try {
-
         const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/store/create`;
+        const session = await auth();
+        const token = session?.user.jwt;
+
         //const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/store/debug/cookies`;
 
         // Default options are marked with *
@@ -14,7 +19,7 @@ export const createStore = async (storeName: string) => {
             credentials: "include", // include, *same-origin, omit
             headers: {
                 "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                "Authorization": `Bearer ${token}` // Include the JWT in the Authorization header
             },
             //body: {
                 //name: storeName,
@@ -23,7 +28,9 @@ export const createStore = async (storeName: string) => {
             referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             //body: JSON.stringify(data), // body data type must match "Content-Type" header
         });
-        return await response.json(); // parses JSON response into native JavaScript objects
+        const jsonResponse = await response.json();
+        return jsonResponse.storeId; // Assuming the response JSON contains a storeId field
+
     } catch (error) {
         throw error;
     }

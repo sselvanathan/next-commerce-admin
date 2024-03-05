@@ -1,8 +1,8 @@
 import {redirect} from "next/navigation";
-import {cookies} from 'next/headers'
 
 import React from "react";
 import {getOldestStoreId} from "@/actions/store/get-oldest-store-id";
+
 
 export default async function SetupLayout(
     {
@@ -11,9 +11,7 @@ export default async function SetupLayout(
         children: React.ReactNode;
     }) {
 
-    //const cookie = cookies().get('jwt');
-    const cookie = cookies().toString();
-    const storeId = await getOldestStoreId(cookie);
+    const storeId = await getOldestStoreId();
 
     if (storeId != null) {
         redirect(`/${storeId}`);

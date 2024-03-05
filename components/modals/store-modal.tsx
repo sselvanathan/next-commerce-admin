@@ -19,7 +19,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {createStore} from "@/actions/store/create-store";
-import {getSession} from "next-auth/react";
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -45,11 +44,11 @@ export const StoreModal = () => {
       window.location.assign(`/${response.data.id}`);
     } catch (error) {
       toast.error("Something went wrong.");
+      console.log(error)
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <Modal
       title="Create Store"

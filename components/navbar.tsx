@@ -3,11 +3,9 @@ import StoreSwitcher from "@/components/store-switcher";
 import {ThemeToggle} from "@/components/theme-toggle";
 import UserButton from "@/components/ui/user-button";
 import {getStoreNames} from "@/actions/store/get-store-names";
-import {cookies} from "next/headers";
 
 const Navbar = async () => {
-    const cookie = cookies().toString();
-    const stores = await getStoreNames(cookie);
+    const stores = await getStoreNames();
 
     return (
         <div className="border-b">

@@ -1,3 +1,5 @@
+import {Simulate} from "react-dom/test-utils";
+
 export const loginUser = async (email: string, password: string) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`;
     console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
@@ -11,6 +13,9 @@ export const loginUser = async (email: string, password: string) => {
             body: JSON.stringify({ email, password }),
             credentials: 'include', // Important to include credentials for cookies
         });
+
+        console.log(response)
+        console.log(response.ok)
 
         if (!response.ok) {
             throw new Error(`Error: ${response.statusText}`);

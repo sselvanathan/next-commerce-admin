@@ -4,8 +4,6 @@ import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import React from "react";
 import {Separator} from "@/components/ui/separator";
-import {cookies} from "next/headers";
-import {getOldestStoreId} from "@/actions/store/get-oldest-store-id";
 
 export default async function DashboardLayout(
     {

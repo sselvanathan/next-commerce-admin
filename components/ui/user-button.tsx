@@ -11,7 +11,6 @@ import {
     CommandList,
     CommandSeparator
 } from "@/components/ui/command";
-import Cookies from "js-cookie";
 
 const UserButton = () => {
 
@@ -19,10 +18,7 @@ const UserButton = () => {
 
     const signOut = () => {
         // remove stored token
-        console.log(Cookies.attributes)
-        Cookies.remove('jwt')
         console.log('removed jwt Cokkie')
-        console.log(Cookies.attributes)
         window.location.assign(`/auth/login`);
     }
 

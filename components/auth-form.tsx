@@ -11,6 +11,7 @@ import {useRef} from "react";
 import {loginUser} from "@/actions/auth/login-user";
 import Router from "next/router";
 import {useRouter} from "next/navigation";
+import {signIn} from "next-auth/react";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
 }
@@ -28,8 +29,12 @@ export function UserAuthForm({className, ...props}: UserAuthFormProps) {
         const password = passwordRef.current?.value || "";
 
         try {
-            await loginUser(email, password);
-            router.push('/'); // Use the router instance from the hook
+            await signIn("credentials", {
+                email:email,
+                password:password,
+                redirect:true,
+            callbackUrl: "/"
+            })
 
         } catch (error) {
             console.error('Login failed:', error);

@@ -1,29 +1,27 @@
+import {auth} from "@/auth";
 
-export const getOldestStoreId = async (cookie: any) => {
+export const getOldestStoreId = async () => {
     try {
+        const session = await auth();
+        const token = session?.user.jwt;
 
         const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/store/get/oldest/id`;
-        // Default options are marked with *
         const response = await fetch(url, {
-            method: "GET", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, *cors, same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "include", // include, *same-origin, omit
+            method: "GET", // Specify the method, GET in this case
             headers: {
                 "Content-Type": "application/json",
-                "Cookie": cookie
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                "Authorization": `Bearer ${token}` // Include the JWT in the Authorization header
             },
-            redirect: "follow", // manual, *follow, error
-            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            //body: JSON.stringify(data), // body data type must match "Content-Type" header
         });
 
-        const jsonResponse = await response.json();
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
-        // Extracting storeId from the JSON response
-        return jsonResponse.storeId;
+        const jsonResponse = await response.json();
+        return jsonResponse.storeId; // Assuming the response JSON contains a storeId field
     } catch (error) {
-        throw error;
+        console.error("Error fetching the oldest store ID:", error);
+        throw error; // Rethrow the error for further handling
     }
 }
