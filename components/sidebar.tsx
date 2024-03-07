@@ -16,36 +16,21 @@ export function Sidebar(
 
     const routes = [
         {
-            href: `/${params.storeId}/billboards`,
-            label: 'Billboards',
-            active: pathname === `/${params.storeId}/billboards`,
-        },
-        {
             href: `/${params.storeId}/products`,
             label: 'Products',
             active: pathname.startsWith(`/${params.storeId}/products`),
-        },
-        {
-            href: `/${params.storeId}/filters`,
-            label: 'Filters',
-            active: pathname.startsWith(`/${params.storeId}/filters`),
             children: [
                 {
-                    href: `/${params.storeId}/filters/sizes`,
-                    label: 'Sizes',
-                    active: pathname.startsWith(`/${params.storeId}/products/sizes`),
+                    href: `/${params.storeId}/filters`,
+                    label: 'Filters',
+                    active: pathname.startsWith(`/${params.storeId}/products/filters`),
                 },
                 {
-                    href: `/${params.storeId}/products/colors`,
-                    label: 'Colors',
-                    active: pathname.startsWith(`/${params.storeId}/products/colors`),
+                    href: `/${params.storeId}/categories`,
+                    label: 'Categories',
+                    active: pathname === `/${params.storeId}/categories`,
                 },
             ],
-        },
-        {
-            href: `/${params.storeId}/categories`,
-            label: 'Categories',
-            active: pathname === `/${params.storeId}/categories`,
         },
         {
             href: `/${params.storeId}/orders`,
